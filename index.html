@@ -1,60 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Submission</title>
-</head>
-<body>
-
-    <form id="myForm" action="https://script.google.com/macros/s/your-script-id/exec" method="post">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
-
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" required></textarea><br>
-
-        <input type="button" value="Submit" onclick="submitForm()">
-    </form>
-
-    <script src="https://apis.google.com/js/api.js"></script>
-    <script>
-        function submitForm() {
-            var name = document.getElementById("name").value;
-            var email = document.getElementById("email").value;
-            var message = document.getElementById("message").value;
-
-            // Call Google Apps Script function with form data
-            google.script.run.processForm(name, email, message);
-
-            // Clear the form fields after submission
-            document.getElementById("myForm").reset();
-        }
-
-        // Google Apps Script functions
-        function onSuccess() {
-            alert('Form submitted successfully!');
-        }
-
-        function onFailure(error) {
-            alert('Error submitting form: ' + error.message);
-        }
-
-        // Load the Google API client
-        function initClient() {
-            google.load('client', function() {
-                google.client.load('script', 'v1', function() {
-                    google.script.run.withSuccessHandler(onSuccess).withFailureHandler(onFailure);
-                });
-            });
-        }
-
-        // Initialize the client
-        window.onload = initClient;
-    </script>
-
-</body>
-</html>
+<form method="POST" action="https://script.google.com/macros/s/AKfycbybUFY3CfKQ_AOueEX5YOGf_m2R5yOPZ9rDQ-XREcWY5-ME6OQixy8P88w5udUjcKQ2/exec">
+    <input name="Email" type="email" placeholder="Email" required>
+    <input name="Name" type="text" placeholder="Name" required>
+    <button type="submit">Send</button>
+  </form>
+  
