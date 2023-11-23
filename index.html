@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formulir HTML</title>
+  <!-- Use the web app URL here -->
   <script src="https://script.google.com/macros/s/AKfycbybUFY3CfKQ_AOueEX5YOGf_m2R5yOPZ9rDQ-XREcWY5-ME6OQixy8P88w5udUjcKQ2/exec"></script>
 </head>
 <body>
@@ -15,6 +16,7 @@
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required>
 
+    <!-- Call the function defined in the Google Apps Script -->
     <button type="button" onclick="submitForm()">Submit</button>
   </form>
 
@@ -23,11 +25,16 @@
       var name = document.getElementById('name').value;
       var email = document.getElementById('email').value;
 
-      // Kirim data ke Google Apps Script
-      google.script.run.submitForm(name, email);
+      // Call the function from the included script
+      google.script.run.submitForm(name, email, showSuccess);
 
-      // Optional: Tambahkan logika untuk memberikan umpan balik kepada pengguna
+      // Optional: Add logic to provide feedback to the user
       alert('Formulir telah disubmit!');
+    }
+
+    // Add a function to show success
+    function showSuccess(response) {
+      alert(response);
     }
   </script>
 </body>
