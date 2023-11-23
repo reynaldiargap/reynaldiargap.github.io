@@ -7,7 +7,7 @@
 </head>
 <body>
 
-    <form id="myForm" action="https://script.google.com/macros/s/AKfycbybUFY3CfKQ_AOueEX5YOGf_m2R5yOPZ9rDQ-XREcWY5-ME6OQixy8P88w5udUjcKQ2/exec" method="post">
+    <form id="myForm" action="https://script.google.com/macros/s/your-script-id/exec" method="post">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br>
 
@@ -20,6 +20,7 @@
         <input type="button" value="Submit" onclick="submitForm()">
     </form>
 
+    <script src="https://apis.google.com/js/api.js"></script>
     <script>
         function submitForm() {
             var name = document.getElementById("name").value;
@@ -32,9 +33,7 @@
             // Clear the form fields after submission
             document.getElementById("myForm").reset();
         }
-    </script>
 
-    <script>
         // Google Apps Script functions
         function onSuccess() {
             alert('Form submitted successfully!');
@@ -43,18 +42,18 @@
         function onFailure(error) {
             alert('Error submitting form: ' + error.message);
         }
-    </script>
 
-    <script src="https://apis.google.com/js/api.js"></script>
-    <script>
         // Load the Google API client
-        google.load('client', initClient);
-
         function initClient() {
-            google.client.load('script', 'v1', function() {
-                google.script.run.withSuccessHandler(onSuccess).withFailureHandler(onFailure);
+            google.load('client', function() {
+                google.client.load('script', 'v1', function() {
+                    google.script.run.withSuccessHandler(onSuccess).withFailureHandler(onFailure);
+                });
             });
         }
+
+        // Initialize the client
+        window.onload = initClient;
     </script>
 
 </body>
