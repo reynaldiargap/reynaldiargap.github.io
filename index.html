@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formulir HTML</title>
-  <!-- Use the web app URL here -->
-  <script src="https://script.google.com/macros/s/AKfycbybUFY3CfKQ_AOueEX5YOGf_m2R5yOPZ9rDQ-XREcWY5-ME6OQixy8P88w5udUjcKQ2/exec"></script>
 </head>
 <body>
   <h1>Formulir HTML</h1>
@@ -16,6 +14,9 @@
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required>
 
+    <!-- Use an iframe to load the Google Apps Script web app -->
+    <iframe id="scriptFrame" src="https://script.google.com/macros/s/AKfycbybUFY3CfKQ_AOueEX5YOGf_m2R5yOPZ9rDQ-XREcWY5-ME6OQixy8P88w5udUjcKQ2/exec" style="display:none;"></iframe>
+
     <!-- Call the function defined in the Google Apps Script -->
     <button type="button" onclick="submitForm()">Submit</button>
   </form>
@@ -25,16 +26,12 @@
       var name = document.getElementById('name').value;
       var email = document.getElementById('email').value;
 
-      // Call the function from the included script
-      google.script.run.submitForm(name, email, showSuccess);
+      // Use postMessage to communicate with the iframe
+      var scriptFrame = document.getElementById('scriptFrame');
+      scriptFrame.contentWindow.postMessage({ name: name, email: email }, 'https://script.google.com');
 
       // Optional: Add logic to provide feedback to the user
       alert('Formulir telah disubmit!');
-    }
-
-    // Add a function to show success
-    function showSuccess(response) {
-      alert(response);
     }
   </script>
 </body>
