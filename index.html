@@ -1,47 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Forir L</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Submission</title>
 </head>
 <body>
-  <h1>Formulir HTML</h1>
-  <form id="myForm">
-    <label for="name">Nama:</label>
-    <input type="text" id="name" name="name" required>
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
+    <form id="myForm" action="https://script.google.com/macros/s/AKfycbybUFY3CfKQ_AOueEX5YOGf_m2R5yOPZ9rDQ-XREcWY5-ME6OQixy8P88w5udUjcKQ2/exec" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
 
-    <!-- Use an iframe to load the Google Apps Script web app -->
-    <iframe id="scriptFrame" src="https://script.google.com/macros/s/AKfycbybUFY3CfKQ_AOueEX5YOGf_m2R5yOPZ9rDQ-XREcWY5-ME6OQixy8P88w5udUjcKQ2/exec" style="display:none;"></iframe>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
 
-    <!-- Call the function defined in the Google Apps Script -->
-    <button type="button" onclick="submitForm()">Submit</button>
-  </form>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea><br>
 
-  <script>
-    function submitForm() {
-      var name = document.getElementById('name').value;
-      var email = document.getElementById('email').value;
-  
-      // Use postMessage to communicate with the iframe
-      var scriptFrame = document.getElementById('scriptFrame');
-      scriptFrame.contentWindow.postMessage({ name: name, email: email }, 'https://script.google.com/macros/s/AKfycbybUFY3CfKQ_AOueEX5YOGf_m2R5yOPZ9rDQ-XREcWY5-ME6OQixy8P88w5udUjcKQ2/exec');
-  
-      // Optional: Add logic to provide feedback to the user
-      alert('Formulir telah disubmit!');
-    }
-  
-    // Add an event listener to handle the response from Google Apps Script
-    window.addEventListener('message', function (event) {
-      if (event.origin === 'https://script.google.com') {
-        // Handle the response from Google Apps Script as needed
-        console.log('Response from Google Apps Script:', event.data);
-      }
-    });
-  </script>
-  
+        <input type="button" value="Submit" onclick="submitForm()">
+    </form>
+
+    <script>
+        function submitForm() {
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var message = document.getElementById("message").value;
+
+            // Call Google Apps Script function with form data
+            google.script.run.processForm(name, email, message);
+
+            // Clear the form fields after submission
+            document.getElementById("myForm").reset();
+        }
+    </script>
+
+    <script>
+        // Google Apps Script functions
+        function onSuccess() {
+            alert('Form submitted successfully!');
+        }
+
+        function onFailure(error) {
+            alert('Error submitting form: ' + error.message);
+        }
+    </script>
+
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script>
+        // Load the Google API client
+        google.load('client', initClient);
+
+        function initClient() {
+            google.client.load('script', 'v1', function() {
+                google.script.run.withSuccessHandler(onSuccess).withFailureHandler(onFailure);
+            });
+        }
+    </script>
+
 </body>
 </html>
